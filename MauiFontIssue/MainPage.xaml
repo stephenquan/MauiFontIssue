@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MauiFontIssue.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:MauiFontIssue"
+    x:Name="this"
+    x:DataType="local:MainPage"
+    BindingContext="{Reference this}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:EqualsMultiValueConverter x:Key="EqualsMultiValueConverter" />
+            <Style x:Key="FontButton" TargetType="Button">
+                <Setter Property="BorderColor" Value="Green" />
+                <Setter Property="BorderWidth" Value="1" />
+                <Setter Property="BackgroundColor" Value="White" />
+                <Setter Property="TextColor" Value="Green" />
+                <Setter Property="CornerRadius" Value="5" />
+                <Setter Property="WidthRequest" Value="200" />
+                <Setter Property="HorizontalOptions" Value="Start" />
+            </Style>
+            <Style
+                x:Key="SelectedFontButton"
+                BasedOn="{StaticResource FontButton}"
+                TargetType="Button">
+                <Setter Property="BackgroundColor" Value="Green" />
+                <Setter Property="TextColor" Value="White" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="30,0" Spacing="25">
+
+            <Label FontFamily="{Binding SelectedFontFamily}" Text="Hello, World!" />
+
+            <Label
+                FontAttributes="Bold"
+                FontFamily="{Binding SelectedFontFamily}"
+                Text="Hello, World! (Bold)" />
+
+            <Label
+                FontAttributes="Italic"
+                FontFamily="{Binding SelectedFontFamily}"
+                Text="Hello, World! (Italics)" />
+
+            <Label
+                FontAttributes="Italic,Bold"
+                FontFamily="{Binding SelectedFontFamily}"
+                Text="Hello, World! (Bold, Italics)" />
+
+            <CollectionView ItemsSource="{Binding FontFamilies}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="x:String">
+                        <Grid Padding="4">
+                            <Button
+                                Clicked="OnFontClicked"
+                                Style="{StaticResource FontButton}"
+                                Text="{Binding .}">
+                                <Button.Triggers>
+                                    <DataTrigger
+                                        Binding="{MultiBinding {Binding .},
+                                                               {Binding Source={x:Reference this}, Path=SelectedFontFamily},
+                                                               Converter={StaticResource EqualsMultiValueConverter}}"
+                                        TargetType="Button"
+                                        Value="True">
+                                        <Setter Property="Style" Value="{StaticResource SelectedFontButton}" />
+                                    </DataTrigger>
+                                </Button.Triggers>
+                            </Button>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
