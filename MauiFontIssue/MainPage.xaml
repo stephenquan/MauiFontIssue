@@ -50,7 +50,7 @@
                 FontFamily="{Binding SelectedFontFamily}"
                 Text="Hello, World! (Bold, Italics)" />
 
-            <CollectionView ItemsSource="{Binding FontFamilies}">
+            <CollectionView ItemsLayout="HorizontalGrid, 4" ItemsSource="{Binding FontFamilies}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="x:String">
                         <Grid Padding="4">
